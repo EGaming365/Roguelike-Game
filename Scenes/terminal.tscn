@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://dm0205wsl851x"]
+
+[ext_resource type="Texture2D" uid="uid://ds5rxmb5qyif4" path="res://Assets/MissingTexture.webp" id="1_0dftn"]
+[ext_resource type="Script" uid="uid://dki4lqa5v4bbt" path="res://Scripts/terminal.gd" id="1_xws0m"]
+[ext_resource type="PackedScene" uid="uid://1m0rha1xhxlh" path="res://Scenes/app_screen.tscn" id="2_rwk22"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tipr4"]
+size = Vector2(60, 60)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tipr4"]
+radius = 38.013157
+
+[node name="Terminal" type="StaticBody2D" unique_id=1813426351]
+script = ExtResource("1_xws0m")
+ui_scene = ExtResource("2_rwk22")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1046320039]
+scale = Vector2(0.015691327, 0.015691327)
+texture = ExtResource("1_0dftn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1888192868]
+shape = SubResource("RectangleShape2D_tipr4")
+
+[node name="Prompt" type="Label" parent="." unique_id=185329281]
+offset_left = -20.0
+offset_top = -57.0
+offset_right = 20.0
+offset_bottom = -34.0
+
+[node name="InteractZone" type="Area2D" parent="." unique_id=1982234254]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractZone" unique_id=35421069]
+position = Vector2(0, 25)
+shape = SubResource("CircleShape2D_tipr4")

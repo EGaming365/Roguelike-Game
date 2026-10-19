@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://iugcos3bjg6i"]
+
+[ext_resource type="PackedScene" uid="uid://dmtlxdopajook" path="res://Scenes/upgrade_hud.tscn" id="1_h2wgy"]
+[ext_resource type="PackedScene" uid="uid://cl2oggxkn4tqd" path="res://Scenes/player.tscn" id="1_x73fd"]
+[ext_resource type="PackedScene" uid="uid://ccrrvv5fn6vgn" path="res://Scenes/health_hud.tscn" id="2_dsbee"]
+[ext_resource type="Texture2D" uid="uid://dccbka7it1r54" path="res://Assets/Tilemap_Temporary.png" id="2_qv37j"]
+[ext_resource type="PackedScene" uid="uid://bh6805ocyxafx" path="res://Scenes/charger_enemy.tscn" id="3_dsbee"]
+[ext_resource type="PackedScene" uid="uid://ckt7cjod55hpw" path="res://Scenes/timer_hud.tscn" id="3_gicec"]
+[ext_resource type="PackedScene" uid="uid://chgumte3rjfdq" path="res://Scenes/upgrade_pickup.tscn" id="4_q31lu"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r8vha"]
+texture = ExtResource("2_qv37j")
+texture_region_size = Vector2i(1190, 1190)
+0:1/0 = 0
+1:1/0 = 0
+1:0/0 = 0
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_h2wgy"]
+tile_size = Vector2i(1, 1)
+sources/0 = SubResource("TileSetAtlasSource_r8vha")
+
+[node name="Main_Hub" type="Node2D" unique_id=1033636561]
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=200744750]
+
+[node name="UpgradeHUD" parent="HUD" unique_id=1560433075 instance=ExtResource("1_h2wgy")]
+
+[node name="HealthHUD" parent="HUD" unique_id=65111197 instance=ExtResource("2_dsbee")]
+
+[node name="TimerHUD" parent="HUD" unique_id=2022605851 instance=ExtResource("3_gicec")]
+
+[node name="TileMap" type="TileMap" parent="." unique_id=942341586]
+tile_set = SubResource("TileSet_h2wgy")
+format = 2
+layer_0/tile_data = PackedInt32Array(-6488087, 65536, 0, -11467848, 0, 1, 52101724, 65536, 1)
+
+[node name="Player" parent="." unique_id=1576836562 instance=ExtResource("1_x73fd")]
+
+[node name="Charger_Enemy" parent="." unique_id=1450663551 instance=ExtResource("3_dsbee")]
+position = Vector2(-264, -300)
+
+[node name="Upgrade_Pickup" parent="." unique_id=860066469 instance=ExtResource("4_q31lu")]
+position = Vector2(294, -207)
+
+[node name="Upgrade_Pickup5" parent="." unique_id=1363741462 instance=ExtResource("4_q31lu")]
+position = Vector2(356, -330)
+
+[node name="Upgrade_Pickup6" parent="." unique_id=931974125 instance=ExtResource("4_q31lu")]
+position = Vector2(489, -312)
+
+[node name="Upgrade_Pickup7" parent="." unique_id=1175151599 instance=ExtResource("4_q31lu")]
+position = Vector2(571, -218)
+
+[node name="Upgrade_Pickup8" parent="." unique_id=923676756 instance=ExtResource("4_q31lu")]
+position = Vector2(616, -115)
+
+[node name="Upgrade_Pickup9" parent="." unique_id=853497504 instance=ExtResource("4_q31lu")]
+position = Vector2(534, -31)
+
+[node name="Upgrade_Pickup10" parent="." unique_id=1225008188 instance=ExtResource("4_q31lu")]
+position = Vector2(629, 33)
+
+[node name="Upgrade_Pickup11" parent="." unique_id=320648849 instance=ExtResource("4_q31lu")]
+position = Vector2(686, -37)
+
+[node name="Upgrade_Pickup12" parent="." unique_id=1392717737 instance=ExtResource("4_q31lu")]
+position = Vector2(774, -78)
+
+[node name="Upgrade_Pickup2" parent="." unique_id=1044687539 instance=ExtResource("4_q31lu")]
+position = Vector2(430, -191)
+upgrade_id = "arc_conduit"
+
+[node name="Upgrade_Pickup3" parent="." unique_id=1004336824 instance=ExtResource("4_q31lu")]
+position = Vector2(512, -105)
+upgrade_id = "tesla_tower"
+
+[node name="Upgrade_Pickup4" parent="." unique_id=807835870 instance=ExtResource("4_q31lu")]
+position = Vector2(746, -169)
+upgrade_id = "overclocked_servos"

@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bec5ofcjtofcq"]
+
+[ext_resource type="Script" uid="uid://cif2akccio1gr" path="res://Scripts/tesla_tower.gd" id="1_fmwch"]
+[ext_resource type="Texture2D" uid="uid://ds5rxmb5qyif4" path="res://Assets/MissingTexture.webp" id="2_b1vqq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fmwch"]
+size = Vector2(22, 128)
+
+[node name="Tesla_Tower" type="StaticBody2D" unique_id=1775701290]
+script = ExtResource("1_fmwch")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=30278319]
+scale = Vector2(-0.006539605, 0.03392739)
+texture = ExtResource("2_b1vqq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1753583012]
+shape = SubResource("RectangleShape2D_fmwch")

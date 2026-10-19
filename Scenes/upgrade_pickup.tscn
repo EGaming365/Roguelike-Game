@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://chgumte3rjfdq"]
+
+[ext_resource type="Script" uid="uid://rsioe5npqm6s" path="res://Scripts/upgrade_pickup.gd" id="1_lc1b8"]
+[ext_resource type="Texture2D" uid="uid://ds5rxmb5qyif4" path="res://Assets/MissingTexture.webp" id="2_ac0s8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ac0s8"]
+size = Vector2(32, 32)
+
+[node name="Upgrade_Pickup" type="Area2D" unique_id=860066469]
+script = ExtResource("1_lc1b8")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=755530904]
+scale = Vector2(0.008624511, 0.008624511)
+texture = ExtResource("2_ac0s8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1033343031]
+shape = SubResource("RectangleShape2D_ac0s8")

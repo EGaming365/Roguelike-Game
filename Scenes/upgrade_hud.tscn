@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://dmtlxdopajook"]
+
+[ext_resource type="Script" uid="uid://cfu16dy6iwyiu" path="res://Scripts/upgrade_hud.gd" id="1_lteg3"]
+[ext_resource type="Texture2D" uid="uid://ds5rxmb5qyif4" path="res://Assets/MissingTexture.webp" id="2_wmu1l"]
+
+[node name="UpgradeHUD" type="Control" unique_id=1560433075]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 140.0
+offset_right = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_lteg3")
+fallback_icon = ExtResource("2_wmu1l")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=187712445]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -296.0
+offset_top = 36.0
+offset_right = 104.0
+offset_bottom = 336.0
+grow_horizontal = 0
+scale = Vector2(0.61970294, 0.5228042)
+mouse_filter = 2
+
+[node name="Layout" type="VBoxContainer" parent="Panel" unique_id=792221586]
+layout_mode = 2
+
+[node name="Clip" type="Control" parent="Panel/Layout" unique_id=1433599969]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="Panel/Layout/Clip" unique_id=355513595]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 300.0
+columns = 4
+
+[node name="ArrowButton" type="Button" parent="Panel/Layout" unique_id=604508198]
+layout_mode = 2
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

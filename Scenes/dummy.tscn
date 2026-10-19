@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://cejwlmbeupkuu"]
+
+[ext_resource type="Script" uid="uid://cr4t84mmw0act" path="res://Scripts/dummy.gd" id="1_5d6mj"]
+[ext_resource type="Texture2D" uid="uid://ds5rxmb5qyif4" path="res://Assets/MissingTexture.webp" id="1_x66xh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5d6mj"]
+size = Vector2(31.458849, 50.33416)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5d6mj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5d6mj"]
+bg_color = Color(0.8, 0, 0.043137256, 1)
+
+[node name="Dummy" type="StaticBody2D" unique_id=814939896]
+script = ExtResource("1_5d6mj")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1037076726]
+position = Vector2(-5.684342e-14, -5.9604645e-08)
+scale = Vector2(0.014257812, 0.021744791)
+texture = ExtResource("1_x66xh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=85283384]
+position = Vector2(-7.1525574e-07, 0)
+scale = Vector2(1.0930537, 1.0930537)
+shape = SubResource("RectangleShape2D_5d6mj")
+
+[node name="HealthBar" type="ProgressBar" parent="." unique_id=486401228]
+custom_minimum_size = Vector2(32, 4)
+offset_left = -22.0
+offset_top = -48.0
+offset_right = 10.0
+offset_bottom = -21.0
+scale = Vector2(1.3306577, 0.14014374)
+theme_override_styles/background = SubResource("StyleBoxEmpty_5d6mj")
+theme_override_styles/fill = SubResource("StyleBoxFlat_5d6mj")
+show_percentage = false
+
+[node name="DamageNumber" type="Label" parent="." unique_id=811104850]
+offset_left = -4.0
+offset_top = -67.0
+offset_right = 36.0
+offset_bottom = -44.0
+text = "0"

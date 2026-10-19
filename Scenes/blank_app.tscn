@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://45tp7elriere"]
+
+[ext_resource type="Script" uid="uid://bkoedxmfwek2e" path="res://Scripts/blank_app.gd" id="1_mpg6j"]
+
+[node name="BlankApp" type="Control" unique_id=818316883]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mpg6j")
+
+[node name="Background" type="ColorRect" parent="." unique_id=257773728]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Content" type="VBoxContainer" parent="." unique_id=64213826]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+alignment = 1
+
+[node name="Title" type="Label" parent="Content" unique_id=2116005062]
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="Content" unique_id=247923913]
+layout_mode = 2
+text = "Close"

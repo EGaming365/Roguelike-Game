@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://ckt7cjod55hpw"]
+
+[node name="TimerHUD" type="Control" unique_id=1560433075]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1348.0
+offset_top = 91.0
+offset_right = 1348.0
+offset_bottom = 91.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=187712445]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 1
+offset_left = 63.0
+offset_top = -54.000004
+offset_right = 363.0
+offset_bottom = 45.999996
+scale = Vector2(0.61970294, 0.5228042)
+mouse_filter = 2
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

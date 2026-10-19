@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://cd1jajqcnh0df"]
+
+[ext_resource type="Script" uid="uid://b2wcpqh828uey" path="res://Scripts/enemy.gd" id="1_hghv2"]
+[ext_resource type="Texture2D" uid="uid://ds5rxmb5qyif4" path="res://Assets/MissingTexture.webp" id="2_1f0kj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1f0kj"]
+size = Vector2(34, 76)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1f0kj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1f0kj"]
+bg_color = Color(0.80064154, 0, 0.044262134, 1)
+
+[node name="Enemy" type="CharacterBody2D" unique_id=1450663551]
+texture_filter = 1
+texture_repeat = 1
+script = ExtResource("1_hghv2")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=357132649]
+scale = Vector2(0.009630938, 0.020454533)
+texture = ExtResource("2_1f0kj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1860644877]
+scale = Vector2(0.81143, 0.81143)
+shape = SubResource("RectangleShape2D_1f0kj")
+
+[node name="Exclamation" type="Label" parent="." unique_id=413148315]
+texture_filter = 1
+offset_left = -5.0
+offset_top = -87.0
+offset_right = 35.0
+offset_bottom = -64.0
+scale = Vector2(2.2389605, 2.2389605)
+text = "!"
+
+[node name="HealthBar" type="ProgressBar" parent="." unique_id=1324204041]
+custom_minimum_size = Vector2(32, 2)
+offset_left = -16.0
+offset_top = -44.0
+offset_right = 16.0
+offset_bottom = -17.0
+scale = Vector2(0.94040024, 0.098799735)
+theme_override_styles/background = SubResource("StyleBoxEmpty_1f0kj")
+theme_override_styles/fill = SubResource("StyleBoxFlat_1f0kj")
+show_percentage = false
+
+[node name="DamageNumber" type="Label" parent="." unique_id=2032023256]
+offset_left = -4.0
+offset_top = -67.0
+offset_right = 36.0
+offset_bottom = -44.0
+text = "0"

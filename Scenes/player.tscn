@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://cl2oggxkn4tqd"]
+
+[ext_resource type="Script" uid="uid://b0oc2o1dh5nye" path="res://Scripts/player.gd" id="1_6t5aa"]
+[ext_resource type="Texture2D" uid="uid://ds5rxmb5qyif4" path="res://Assets/MissingTexture.webp" id="1_cvnsp"]
+[ext_resource type="Texture2D" uid="uid://cvrqeqmshe0p7" path="res://Assets/Shadow.png" id="2_6t5aa"]
+[ext_resource type="Script" uid="uid://clh0y635h84hs" path="res://Scripts/cyber_upgrades.gd" id="4_vgqql"]
+[ext_resource type="PackedScene" uid="uid://bec5ofcjtofcq" path="res://Scenes/tesla_tower.tscn" id="5_fkybt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6t5aa"]
+size = Vector2(10.102684, 35.1597)
+
+[node name="Player" type="CharacterBody2D" unique_id=1576836562]
+scale = Vector2(0.29027084, 0.29027084)
+script = ExtResource("1_6t5aa")
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=2015953908]
+position = Vector2(-2.3841858e-07, 114.587)
+scale = Vector2(0.23957708, 0.13256398)
+texture = ExtResource("2_6t5aa")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1878321631]
+position = Vector2(-0.9999998, -1.0000001)
+scale = Vector2(-0.038539555, 0.065503865)
+texture = ExtResource("1_cvnsp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=486359784]
+position = Vector2(-1.7225301, -1.7225227)
+scale = Vector2(13.981176, 6.956804)
+shape = SubResource("RectangleShape2D_6t5aa")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1895405182]
+
+[node name="Upgrades" type="Node2D" parent="." unique_id=1059372532]
+script = ExtResource("4_vgqql")
+tesla_tower_scene = ExtResource("5_fkybt")

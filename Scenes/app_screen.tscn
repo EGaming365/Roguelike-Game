@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://1m0rha1xhxlh"]
+
+[ext_resource type="Script" uid="uid://cseuyyo1xrg7p" path="res://Scripts/app_screen.gd" id="1_ocm5s"]
+[ext_resource type="Texture2D" uid="uid://ds5rxmb5qyif4" path="res://Assets/MissingTexture.webp" id="2_prg1d"]
+[ext_resource type="Script" uid="uid://fkr342soo583" path="res://Scripts/app_icon.gd" id="3_3qcu8"]
+[ext_resource type="PackedScene" uid="uid://45tp7elriere" path="res://Scenes/blank_app.tscn" id="4_3qcu8"]
+
+[node name="App_Screen" type="CanvasLayer" unique_id=994309285]
+layer = 10
+script = ExtResource("1_ocm5s")
+
+[node name="Dim" type="ColorRect" parent="." unique_id=1274832405]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1921751750]
+custom_minimum_size = Vector2(720, 440)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -220.0
+offset_right = 360.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="Panel" unique_id=538174667]
+layout_mode = 2
+
+[node name="Layout" type="VBoxContainer" parent="Panel/Margin" unique_id=1701492700]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Panel/Margin/Layout" unique_id=1068087041]
+layout_mode = 2
+text = "TERMINAL"
+horizontal_alignment = 1
+
+[node name="Grid" type="GridContainer" parent="Panel/Margin/Layout" unique_id=1136389867]
+layout_mode = 2
+theme_override_constants/h_separation = 28
+theme_override_constants/v_separation = 28
+columns = 3
+
+[node name="Button" type="Button" parent="Panel/Margin/Layout/Grid" unique_id=1007956006]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+icon = ExtResource("2_prg1d")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+script = ExtResource("3_3qcu8")
+app_scene = ExtResource("4_3qcu8")
+
+[node name="Button2" type="Button" parent="Panel/Margin/Layout/Grid" unique_id=726557757]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+icon = ExtResource("2_prg1d")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+script = ExtResource("3_3qcu8")
+app_scene = ExtResource("4_3qcu8")
+
+[node name="Button3" type="Button" parent="Panel/Margin/Layout/Grid" unique_id=588965407]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+icon = ExtResource("2_prg1d")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+script = ExtResource("3_3qcu8")
+app_scene = ExtResource("4_3qcu8")
+
+[node name="Button4" type="Button" parent="Panel/Margin/Layout/Grid" unique_id=1000549016]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+icon = ExtResource("2_prg1d")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+script = ExtResource("3_3qcu8")
+app_scene = ExtResource("4_3qcu8")
+
+[node name="Hint" type="Label" parent="Panel/Margin/Layout" unique_id=346205429]
+layout_mode = 2
+
+[node name="AppHolder" type="Control" parent="." unique_id=1170957046]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
