@@ -4,7 +4,7 @@ enum State { IDLE, APPROACH, TELEGRAPH, CHARGE, RECOVER, STUNNED }
 
 const FLASH_SHADER_CODE: String = "shader_type canvas_item;\nuniform float flash_amount : hint_range(0.0, 1.0) = 0.0;\nvoid fragment() {\n\tCOLOR.rgb = mix(COLOR.rgb, vec3(1.0), flash_amount);\n}\n"
 
-@export var max_health: int = 250
+@export var max_health: int = 16
 @export var detect_range: float = 900.0
 @export var walk_speed: float = 90.0
 @export var sprite_faces_right: bool = true
@@ -17,17 +17,17 @@ const FLASH_SHADER_CODE: String = "shader_type canvas_item;\nuniform float flash
 @export var charge_acceleration: float = 2200.0
 @export var charge_turn_rate_degrees: float = 135.0
 @export var charge_duration: float = 1.6
-@export var charge_damage: int = 20
+@export var charge_damage: int = 1
 @export var charge_hit_radius: float = 60.0
 @export var charge_hit_offset: Vector2 = Vector2(0.0, -8.0)
 @export var ram_knockback_angle_degrees: float = 30.0
 @export var ram_knockback_speed: float = 500.0
-@export var ram_enemy_damage: int = 25
+@export var ram_enemy_damage: int = 6
 @export_flags_2d_physics var ram_collision_mask: int = 1
 @export var perfect_dodge_distance: float = 140.0
 @export var recovery_time: float = 1.0
 @export var crash_extra_recovery: float = 0.6
-@export var shockwave_damage: int = 15
+@export var shockwave_damage: float = 0.5
 @export var shockwave_speed: float = 180.0
 @export var shockwave_max_radius: float = 320.0
 @export var shockwave_thickness: float = 26.0

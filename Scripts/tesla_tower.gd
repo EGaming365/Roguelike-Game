@@ -2,7 +2,7 @@ extends StaticBody2D
 
 @export var lifetime: float = 12.0
 @export var max_triggers: int = 1
-@export var shockwave_damage: int = 50
+@export var shockwave_damage: int = 6
 @export var shockwave_radius: float = 500.0
 @export var stun_duration: float = 2.0
 @export var shockwave_duration: float = 0.8

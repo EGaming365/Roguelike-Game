@@ -2,7 +2,7 @@ extends StaticBody2D
 
 const FLASH_SHADER_CODE: String = "shader_type canvas_item;\nuniform float flash_amount : hint_range(0.0, 1.0) = 0.0;\nvoid fragment() {\n\tCOLOR.rgb = mix(COLOR.rgb, vec3(1.0), flash_amount);\n}\n"
 
-@export var max_health: int = 200
+@export var max_health: int = 20
 @export var reset_delay: float = 1.0
 @export var flash_time: float = 0.08
 @export var hit_push: float = 5.0

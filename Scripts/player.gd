@@ -1,5 +1,9 @@
 extends CharacterBody2D
 
+signal health_changed(current: float, maximum: float)
+signal died
+signal respawned
+
 @export var max_speed: float = 190.0
 @export var acceleration: float = 2600.0
 @export var friction: float = 3600.0
@@ -16,7 +20,7 @@ extends CharacterBody2D
 @export var jump_through_objects: bool = true
 @export var jump_through_group: StringName = &"jump_through"
 @export var jump_z_boost: int = 10
-@export_range(0.0, 1.0, 0.01) var landing_push_start: float = 0.5
+@export_range(0.0, 1.0, 0.01) var landing_push_start: float = 0.8
 @export var landing_push_speed: float = 420.0
 @export var landing_clear_margin: float = 2.0
 @export var landing_push_timeout: float = 1.0
@@ -37,7 +41,10 @@ extends CharacterBody2D
 @export var dash_invulnerable: bool = true
 @export var dodge_window: float = 0.05
 @export var knockback_decay: float = 900.0
-@export var max_health: int = 100
+@export var max_health: float = 3.0
+@export var respawn_at_spawn_point: bool = true
+@export var respawn_protection_time: float = 1.0
+@export var protection_blink_interval: float = 0.1
 @export var hurt_flash_time: float = 0.12
 @export var hurt_flash_color: Color = Color(1.0, 0.25, 0.25)
 @export var print_hurt_debug: bool = false
@@ -47,8 +54,8 @@ extends CharacterBody2D
 @export var attack_action: StringName = &"attack"
 @export var attack_hold_to_repeat: bool = true
 @export var attack_buffer_time: float = 0.2
-@export var attack_damage_min: int = 8
-@export var attack_damage_max: int = 14
+@export var attack_damage_min: int = 1
+@export var attack_damage_max: int = 1
 @export var attack_cooldown: float = 0.16
 @export var attack_active_time: float = 0.1
 @export var attack_range: float = 400.0
@@ -86,7 +93,10 @@ var jump_ignored_bodies: Array = []
 var body_collider: CollisionShape2D
 var separation_time: float = 0.0
 var knockback_velocity: Vector2 = Vector2.ZERO
-var health: int = 0
+var health: float = 0.0
+var dead: bool = false
+var spawn_position: Vector2 = Vector2.ZERO
+var protection_left: float = 0.0
 var hurt_flash_left: float = 0.0
 var hit_stop_active: bool = false
 var pending_hits: Array[Dictionary] = []
@@ -120,6 +130,7 @@ func _ready() -> void:
 	shadow_base_scale = shadow.scale
 	base_z_index = z_index
 	health = max_health
+	spawn_position = global_position
 	attack_current_range = attack_range
 	attack_current_width = attack_width
 	add_to_group("player")
@@ -130,6 +141,7 @@ func _ready() -> void:
 			break
 
 	build_attack_pivot()
+	health_changed.emit(health, max_health)
 
 
 func build_attack_pivot() -> void:
@@ -143,6 +155,10 @@ func build_attack_pivot() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if dead:
+		process_dead(delta)
+		return
+
 	var input_vector: Vector2 = Input.get_vector(move_left_action, move_right_action, move_up_action, move_down_action)
 
 	if input_vector != Vector2.ZERO:
@@ -152,6 +168,7 @@ func _physics_process(delta: float) -> void:
 
 	hurt_flash_left = maxf(hurt_flash_left - delta, 0.0)
 	dash_grace_left = maxf(dash_grace_left - delta, 0.0)
+	protection_left = maxf(protection_left - delta, 0.0)
 
 	attack_buffer_left = maxf(attack_buffer_left - delta, 0.0)
 	if Input.is_action_just_pressed(attack_action) and not is_pointer_over_ui():
@@ -192,6 +209,16 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	apply_separation_push(delta)
 	apply_knockback_motion(delta)
+	update_visuals()
+
+
+func process_dead(delta: float) -> void:
+	velocity = Vector2.ZERO
+	hurt_flash_left = maxf(hurt_flash_left - delta, 0.0)
+	update_height(delta)
+	if is_grounded():
+		update_grounded_separation(delta)
+	apply_separation_push(delta)
 	update_visuals()
 
 
@@ -266,6 +293,15 @@ func register_dodge() -> void:
 		upgrades.call("on_dodge")
 
 
+func set_upgrades_active(active: bool) -> void:
+	if upgrades == null:
+		return
+	upgrades.set_physics_process(active)
+	upgrades.set("visible", active)
+	if not active:
+		upgrades.set("preview_active", false)
+
+
 func is_dash_invulnerable() -> bool:
 	return dash_invulnerable and (dash_time_left > 0.0 or dash_grace_left > 0.0)
 
@@ -274,7 +310,10 @@ func dodge_already_counted(source) -> bool:
 	return is_instance_valid(source) and source.has_method("has_counted_dodge") and source.has_counted_dodge()
 
 
-func take_damage(amount: int, _from_position: Vector2, source: Object = null) -> void:
+func take_damage(amount: float, _from_position: Vector2, source: Object = null) -> void:
+	if dead or protection_left > 0.0:
+		notify_hit_source(source, false)
+		return
 	if is_dash_invulnerable():
 		if print_hurt_debug:
 			print("Player dodged a hit with dash i-frames")
@@ -296,7 +335,7 @@ func update_pending_hits(delta: float) -> void:
 	for index in range(pending_hits.size() - 1, -1, -1):
 		pending_hits[index]["time_left"] -= delta
 		if pending_hits[index]["time_left"] <= 0.0:
-			var amount: int = pending_hits[index]["amount"]
+			var amount: float = pending_hits[index]["amount"]
 			var source = pending_hits[index]["source"]
 			pending_hits.remove_at(index)
 			apply_damage(amount)
@@ -308,15 +347,65 @@ func notify_hit_source(source, dealt: bool) -> void:
 		source.on_hit_resolved(dealt)
 
 
-func apply_damage(amount: int) -> void:
-	health = maxi(health - amount, 0)
+func apply_damage(amount: float) -> void:
+	if dead:
+		return
+	health = maxf(health - amount, 0.0)
 	hurt_flash_left = hurt_flash_time
 	if upgrades != null:
 		upgrades.call("on_player_damaged")
 	if print_hurt_debug:
 		print("Player hit for ", amount, ", health ", health, "/", max_health)
-	if health <= 0:
-		health = max_health
+	health_changed.emit(health, max_health)
+	if health <= 0.0:
+		die()
+
+
+func die() -> void:
+	dead = true
+	pending_hits.clear()
+	velocity = Vector2.ZERO
+	knockback_velocity = Vector2.ZERO
+	dash_time_left = 0.0
+	dash_grace_left = 0.0
+	attack_time_left = 0.0
+	attack_buffer_left = 0.0
+	hitbox_visible_left = 0.0
+	combo_step = 0
+	attack_pivot.queue_redraw()
+	set_upgrades_active(false)
+	died.emit()
+
+
+func respawn() -> void:
+	dead = false
+	health = max_health
+	protection_left = respawn_protection_time
+
+	if respawn_at_spawn_point:
+		global_position = spawn_position
+
+	velocity = Vector2.ZERO
+	knockback_velocity = Vector2.ZERO
+	height = 0.0
+	height_velocity = 0.0
+	air_time = 0.0
+	hurt_flash_left = 0.0
+	attack_cooldown_left = 0.0
+	attack_buffer_left = 0.0
+	dash_cooldown_left = 0.0
+	combo_reset_left = 0.0
+	z_index = base_z_index
+
+	prune_ignored_bodies()
+	for body in jump_ignored_bodies:
+		remove_collision_exception_with(body)
+	jump_ignored_bodies = []
+	separation_time = 0.0
+
+	set_upgrades_active(true)
+	health_changed.emit(health, max_health)
+	respawned.emit()
 
 
 func hit_stop() -> void:
@@ -604,6 +693,8 @@ func update_height(delta: float) -> void:
 func update_visuals() -> void:
 	sprite.position.y = sprite_base_y - height
 	sprite.modulate = hurt_flash_color if hurt_flash_left > 0.0 else Color.WHITE
+	if protection_left > 0.0 and int(protection_left / maxf(protection_blink_interval, 0.001)) % 2 == 0:
+		sprite.modulate.a = 0.45
 	var t: float = clampf(height / shadow_fade_height, 0.0, 1.0)
 	shadow.scale = shadow_base_scale * lerpf(1.0, shadow_min_scale, t)
 	shadow.modulate.a = lerpf(1.0, shadow_min_alpha, t)

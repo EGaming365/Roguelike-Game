@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://ddmhn1s1rsub5"]
+
+[ext_resource type="Script" uid="uid://8vp6mwk0gpuf" path="res://Scripts/death_screen.gd" id="1_8hps1"]
+
+[node name="DeathScreen" type="Control" unique_id=1786870150]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_8hps1")
+
+[node name="Fade" type="ColorRect" parent="." unique_id=798669530]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Message" type="Label" parent="." unique_id=89149772]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 140.0
+offset_bottom = 163.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 72
+horizontal_alignment = 1
+
+[node name="Prompt" type="Label" parent="." unique_id=490007979]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 160.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+vertical_alignment = 1

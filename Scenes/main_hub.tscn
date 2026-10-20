@@ -7,6 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://bh6805ocyxafx" path="res://Scenes/charger_enemy.tscn" id="3_dsbee"]
 [ext_resource type="PackedScene" uid="uid://ckt7cjod55hpw" path="res://Scenes/timer_hud.tscn" id="3_gicec"]
 [ext_resource type="PackedScene" uid="uid://chgumte3rjfdq" path="res://Scenes/upgrade_pickup.tscn" id="4_q31lu"]
+[ext_resource type="PackedScene" uid="uid://ddmhn1s1rsub5" path="res://Scenes/death_screen.tscn" id="4_y7xdp"]
+[ext_resource type="PackedScene" uid="uid://cejwlmbeupkuu" path="res://Scenes/dummy.tscn" id="7_q31lu"]
+[ext_resource type="PackedScene" uid="uid://chrwft5m17y6e" path="res://Scenes/upgrade_station.tscn" id="8_34pv5"]
+[ext_resource type="PackedScene" uid="uid://cd1jajqcnh0df" path="res://Scenes/enemy.tscn" id="8_y7xdp"]
+[ext_resource type="PackedScene" uid="uid://byudgbejyto4" path="res://Scenes/ranged_enemy.tscn" id="10_vyek5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r8vha"]
 texture = ExtResource("2_qv37j")
@@ -26,9 +31,12 @@ sources/0 = SubResource("TileSetAtlasSource_r8vha")
 
 [node name="UpgradeHUD" parent="HUD" unique_id=1560433075 instance=ExtResource("1_h2wgy")]
 
-[node name="HealthHUD" parent="HUD" unique_id=65111197 instance=ExtResource("2_dsbee")]
-
 [node name="TimerHUD" parent="HUD" unique_id=2022605851 instance=ExtResource("3_gicec")]
+
+[node name="HealthBar" parent="HUD" unique_id=1613793449 instance=ExtResource("2_dsbee")]
+
+[node name="DeathScreen" parent="HUD" unique_id=1786870150 instance=ExtResource("4_y7xdp")]
+visible = false
 
 [node name="TileMap" type="TileMap" parent="." unique_id=942341586]
 tile_set = SubResource("TileSet_h2wgy")
@@ -37,44 +45,49 @@ layer_0/tile_data = PackedInt32Array(-6488087, 65536, 0, -11467848, 0, 1, 521017
 
 [node name="Player" parent="." unique_id=1576836562 instance=ExtResource("1_x73fd")]
 
-[node name="Charger_Enemy" parent="." unique_id=1450663551 instance=ExtResource("3_dsbee")]
-position = Vector2(-264, -300)
+[node name="Dummy" parent="." unique_id=814939896 instance=ExtResource("7_q31lu")]
+position = Vector2(139, 1)
+
+[node name="Upgrade_Station" parent="." unique_id=1813426351 instance=ExtResource("8_34pv5")]
+position = Vector2(281, -117)
+
+[node name="Enemy" parent="." unique_id=1450663551 instance=ExtResource("8_y7xdp")]
+position = Vector2(981, -330)
+
+[node name="Enemy2" parent="." unique_id=1773719787 instance=ExtResource("8_y7xdp")]
+position = Vector2(2095, -335)
+
+[node name="Ranged_Enemy" parent="." unique_id=747585247 instance=ExtResource("10_vyek5")]
+position = Vector2(2182, -215)
+
+[node name="Ranged_Enemy2" parent="." unique_id=707359816 instance=ExtResource("10_vyek5")]
+position = Vector2(2198, -509)
+
+[node name="Charger_Enemy" parent="." unique_id=882177220 instance=ExtResource("3_dsbee")]
+position = Vector2(3626, -342)
+
+[node name="Charger_Enemy2" parent="." unique_id=1078436543 instance=ExtResource("3_dsbee")]
+position = Vector2(-477, -920)
+
+[node name="Enemy3" parent="." unique_id=1490190114 instance=ExtResource("8_y7xdp")]
+position = Vector2(3619, -163)
+
+[node name="Ranged_Enemy3" parent="." unique_id=1595233226 instance=ExtResource("10_vyek5")]
+position = Vector2(3766, -335)
+
+[node name="Ranged_Enemy4" parent="." unique_id=1442486227 instance=ExtResource("10_vyek5")]
+position = Vector2(3690, -530)
+
+[node name="Upgrade_Station2" parent="." unique_id=1068711242 instance=ExtResource("8_34pv5")]
+position = Vector2(2522, -429)
+
+[node name="Upgrade_Station3" parent="." unique_id=717636534 instance=ExtResource("8_34pv5")]
+position = Vector2(1126, -316)
 
 [node name="Upgrade_Pickup" parent="." unique_id=860066469 instance=ExtResource("4_q31lu")]
-position = Vector2(294, -207)
-
-[node name="Upgrade_Pickup5" parent="." unique_id=1363741462 instance=ExtResource("4_q31lu")]
-position = Vector2(356, -330)
-
-[node name="Upgrade_Pickup6" parent="." unique_id=931974125 instance=ExtResource("4_q31lu")]
-position = Vector2(489, -312)
-
-[node name="Upgrade_Pickup7" parent="." unique_id=1175151599 instance=ExtResource("4_q31lu")]
-position = Vector2(571, -218)
-
-[node name="Upgrade_Pickup8" parent="." unique_id=923676756 instance=ExtResource("4_q31lu")]
-position = Vector2(616, -115)
-
-[node name="Upgrade_Pickup9" parent="." unique_id=853497504 instance=ExtResource("4_q31lu")]
-position = Vector2(534, -31)
-
-[node name="Upgrade_Pickup10" parent="." unique_id=1225008188 instance=ExtResource("4_q31lu")]
-position = Vector2(629, 33)
-
-[node name="Upgrade_Pickup11" parent="." unique_id=320648849 instance=ExtResource("4_q31lu")]
-position = Vector2(686, -37)
-
-[node name="Upgrade_Pickup12" parent="." unique_id=1392717737 instance=ExtResource("4_q31lu")]
-position = Vector2(774, -78)
-
-[node name="Upgrade_Pickup2" parent="." unique_id=1044687539 instance=ExtResource("4_q31lu")]
-position = Vector2(430, -191)
+position = Vector2(303, 14)
 upgrade_id = "arc_conduit"
 
-[node name="Upgrade_Pickup3" parent="." unique_id=1004336824 instance=ExtResource("4_q31lu")]
-position = Vector2(512, -105)
+[node name="Upgrade_Pickup2" parent="." unique_id=1259034432 instance=ExtResource("4_q31lu")]
+position = Vector2(397, -10)
 upgrade_id = "tesla_tower"
-
-[node name="Upgrade_Pickup4" parent="." unique_id=807835870 instance=ExtResource("4_q31lu")]
-position = Vector2(746, -169)
-upgrade_id = "overclocked_servos"

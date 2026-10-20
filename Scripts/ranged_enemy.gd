@@ -4,7 +4,7 @@ enum State { IDLE, KEEP_DISTANCE, AIM, FIRE, PAUSE, STUNNED }
 
 const FLASH_SHADER_CODE: String = "shader_type canvas_item;\nuniform float flash_amount : hint_range(0.0, 1.0) = 0.0;\nvoid fragment() {\n\tCOLOR.rgb = mix(COLOR.rgb, vec3(1.0), flash_amount);\n}\n"
 
-@export var max_health: int = 100
+@export var max_health: int = 6
 @export var detect_range: float = 1000.0
 @export var shoot_range: float = 600.0
 @export var flee_distance: float = 220.0
@@ -14,8 +14,8 @@ const FLASH_SHADER_CODE: String = "shader_type canvas_item;\nuniform float flash
 @export var sprite_faces_right: bool = true
 @export var projectile_scene: PackedScene
 @export var projectile_speed: float = 800.0
-@export var projectile_damage: int = 8
-@export var burst_count: int = 5
+@export var projectile_damage: float = 0.5
+@export var burst_count: int = 1
 @export var burst_interval: float = 0.2
 @export var burst_spread_degrees: float = 3.0
 @export var muzzle_offset: Vector2 = Vector2(0.0, -12.0)

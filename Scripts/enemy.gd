@@ -4,7 +4,7 @@ enum State { IDLE, CHASE, WINDUP_ONE, SWING_ONE, PAUSE, WINDUP_TWO, DASH, DASH_T
 
 const FLASH_SHADER_CODE: String = "shader_type canvas_item;\nuniform float flash_amount : hint_range(0.0, 1.0) = 0.0;\nvoid fragment() {\n\tCOLOR.rgb = mix(COLOR.rgb, vec3(1.0), flash_amount);\n}\n"
 
-@export var max_health: int = 200
+@export var max_health: int = 10
 @export var detect_range: float = 600.0
 @export var attack_trigger_distance: float = 140.0
 @export var move_speed: float = 100.0
@@ -17,17 +17,17 @@ const FLASH_SHADER_CODE: String = "shader_type canvas_item;\nuniform float flash
 @export var swing_width: float = 40.0
 @export var swing_arc_degrees: float = 120.0
 @export var swing_start_distance: float = 40.0
-@export var swing_damage: int = 10
+@export var swing_damage: float = 0.5
 @export var swing_origin_offset: Vector2 = Vector2(0.0, -8.0)
 @export var after_swing_delay: float = 0.55
 @export var second_windup_time: float = 0.4
 @export var dash_speed: float = 650.0
-@export var dash_duration: float = 0.18
+@export var dash_duration: float = 0.14
 @export var dash_line_length: float = 150.0
 @export var dash_line_width: float = 30.0
 @export var dash_line_start_distance: float = 20.0
-@export var dash_line_linger: float = 0.1
-@export var dash_damage: int = 20
+@export var dash_line_linger: float = 0.05
+@export var dash_damage: float = 0.5
 @export var recovery_time: float = 2.0
 @export var knockback_speed: float = 160.0
 @export var knockback_decay: float = 900.0
@@ -77,7 +77,7 @@ var hitbox_visible_left: float = 0.0
 var hit_start: float = 0.0
 var hit_length: float = 0.0
 var hit_width: float = 0.0
-var hit_damage: int = 0
+var hit_damage: float = 0
 
 
 func _ready() -> void:
@@ -128,7 +128,7 @@ func build_swing_pivot() -> void:
 	add_child(swing_pivot)
 
 
-func set_hit_shape(start: float, length: float, width: float, damage: int) -> void:
+func set_hit_shape(start: float, length: float, width: float, damage: float) -> void:
 	hit_start = start
 	hit_length = length
 	hit_width = width

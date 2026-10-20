@@ -1,18 +1,15 @@
 [gd_scene format=3 uid="uid://ccrrvv5fn6vgn"]
 
-[node name="HealthHUD" type="Control" unique_id=1560433075]
+[ext_resource type="Script" uid="uid://ceivr8hasbk6" path="res://Scripts/health_bar.gd" id="1_pa7yc"]
+
+[node name="HealthBar" type="Control" unique_id=1560433075]
 layout_mode = 3
 anchors_preset = 0
-
-[node name="Panel" type="PanelContainer" parent="." unique_id=187712445]
-custom_minimum_size = Vector2(600, 200)
-layout_mode = 1
-offset_left = 47.0
-offset_top = 33.999996
-offset_right = 647.0
-offset_bottom = 234.0
-scale = Vector2(0.61970294, 0.5228042)
-mouse_filter = 2
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 24.0
+offset_bottom = 24.0
+script = ExtResource("1_pa7yc")
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
