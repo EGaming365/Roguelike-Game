@@ -11,9 +11,12 @@ extends CanvasLayer
 @export var highlight_color: Color = Color(1.0, 0.95, 0.25, 1.0)
 @export var highlight_width: float = 3.0
 @export var highlight_padding: float = 6.0
+@export var fit_apps_to_frame: bool = true
+@export var clip_apps_to_frame: bool = true
 
 @onready var grid: GridContainer = find_child("Grid", true, false) as GridContainer
 @onready var app_holder: Control = find_child("AppHolder", true, false) as Control
+@onready var app_frame: Control = find_child("Panel", true, false) as Control
 
 var apps: Array[AppIcon] = []
 var selected_index: int = 0
@@ -27,6 +30,15 @@ func _ready() -> void:
 
 	if pause_game:
 		get_tree().paused = true
+
+	if app_holder != null:
+		app_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		app_holder.clip_contents = clip_apps_to_frame
+		if fit_apps_to_frame and app_frame != null:
+			app_frame.resized.connect(fit_holder)
+			get_viewport().size_changed.connect(fit_holder)
+			fit_holder()
+			fit_holder.call_deferred()
 
 	if grid == null:
 		push_warning("App screen is missing a GridContainer named Grid")
@@ -45,6 +57,15 @@ func _ready() -> void:
 		icon.pressed.connect(open_app.bind(index))
 
 	grid.queue_redraw()
+
+
+func fit_holder() -> void:
+	if app_holder == null or app_frame == null:
+		return
+	var rect: Rect2 = app_frame.get_global_rect()
+	app_holder.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	app_holder.global_position = rect.position
+	app_holder.size = rect.size
 
 
 func _exit_tree() -> void:

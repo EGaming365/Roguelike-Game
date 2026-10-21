@@ -4,14 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://cl2oggxkn4tqd" path="res://Scenes/player.tscn" id="1_x73fd"]
 [ext_resource type="PackedScene" uid="uid://ccrrvv5fn6vgn" path="res://Scenes/health_hud.tscn" id="2_dsbee"]
 [ext_resource type="Texture2D" uid="uid://dccbka7it1r54" path="res://Assets/Tilemap_Temporary.png" id="2_qv37j"]
-[ext_resource type="PackedScene" uid="uid://bh6805ocyxafx" path="res://Scenes/charger_enemy.tscn" id="3_dsbee"]
 [ext_resource type="PackedScene" uid="uid://ckt7cjod55hpw" path="res://Scenes/timer_hud.tscn" id="3_gicec"]
-[ext_resource type="PackedScene" uid="uid://chgumte3rjfdq" path="res://Scenes/upgrade_pickup.tscn" id="4_q31lu"]
-[ext_resource type="PackedScene" uid="uid://ddmhn1s1rsub5" path="res://Scenes/death_screen.tscn" id="4_y7xdp"]
-[ext_resource type="PackedScene" uid="uid://cejwlmbeupkuu" path="res://Scenes/dummy.tscn" id="7_q31lu"]
-[ext_resource type="PackedScene" uid="uid://chrwft5m17y6e" path="res://Scenes/upgrade_station.tscn" id="8_34pv5"]
-[ext_resource type="PackedScene" uid="uid://cd1jajqcnh0df" path="res://Scenes/enemy.tscn" id="8_y7xdp"]
-[ext_resource type="PackedScene" uid="uid://byudgbejyto4" path="res://Scenes/ranged_enemy.tscn" id="10_vyek5"]
+[ext_resource type="PackedScene" path="res://Scenes/death_screen.tscn" id="4_y7xdp"]
+[ext_resource type="PackedScene" uid="uid://dm0205wsl851x" path="res://Scenes/terminal.tscn" id="7_q31lu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r8vha"]
 texture = ExtResource("2_qv37j")
@@ -45,49 +40,5 @@ layer_0/tile_data = PackedInt32Array(-6488087, 65536, 0, -11467848, 0, 1, 521017
 
 [node name="Player" parent="." unique_id=1576836562 instance=ExtResource("1_x73fd")]
 
-[node name="Dummy" parent="." unique_id=814939896 instance=ExtResource("7_q31lu")]
-position = Vector2(139, 1)
-
-[node name="Upgrade_Station" parent="." unique_id=1813426351 instance=ExtResource("8_34pv5")]
-position = Vector2(281, -117)
-
-[node name="Enemy" parent="." unique_id=1450663551 instance=ExtResource("8_y7xdp")]
-position = Vector2(981, -330)
-
-[node name="Enemy2" parent="." unique_id=1773719787 instance=ExtResource("8_y7xdp")]
-position = Vector2(2095, -335)
-
-[node name="Ranged_Enemy" parent="." unique_id=747585247 instance=ExtResource("10_vyek5")]
-position = Vector2(2182, -215)
-
-[node name="Ranged_Enemy2" parent="." unique_id=707359816 instance=ExtResource("10_vyek5")]
-position = Vector2(2198, -509)
-
-[node name="Charger_Enemy" parent="." unique_id=882177220 instance=ExtResource("3_dsbee")]
-position = Vector2(3626, -342)
-
-[node name="Charger_Enemy2" parent="." unique_id=1078436543 instance=ExtResource("3_dsbee")]
-position = Vector2(-477, -920)
-
-[node name="Enemy3" parent="." unique_id=1490190114 instance=ExtResource("8_y7xdp")]
-position = Vector2(3619, -163)
-
-[node name="Ranged_Enemy3" parent="." unique_id=1595233226 instance=ExtResource("10_vyek5")]
-position = Vector2(3766, -335)
-
-[node name="Ranged_Enemy4" parent="." unique_id=1442486227 instance=ExtResource("10_vyek5")]
-position = Vector2(3690, -530)
-
-[node name="Upgrade_Station2" parent="." unique_id=1068711242 instance=ExtResource("8_34pv5")]
-position = Vector2(2522, -429)
-
-[node name="Upgrade_Station3" parent="." unique_id=717636534 instance=ExtResource("8_34pv5")]
-position = Vector2(1126, -316)
-
-[node name="Upgrade_Pickup" parent="." unique_id=860066469 instance=ExtResource("4_q31lu")]
-position = Vector2(303, 14)
-upgrade_id = "arc_conduit"
-
-[node name="Upgrade_Pickup2" parent="." unique_id=1259034432 instance=ExtResource("4_q31lu")]
-position = Vector2(397, -10)
-upgrade_id = "tesla_tower"
+[node name="Terminal" parent="." unique_id=1813426351 instance=ExtResource("7_q31lu")]
+position = Vector2(5, -181)

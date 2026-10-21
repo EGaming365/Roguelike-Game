@@ -1,0 +1,160 @@
+[gd_scene format=3 uid="uid://g22rl1sd2ci0"]
+
+[ext_resource type="Script" uid="uid://bt0ud2nptkn8c" path="res://Scripts/tetris.gd" id="1_t8p3t"]
+
+[node name="Tetris" type="Control" unique_id=1880297168]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1200.0
+offset_bottom = -640.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t8p3t")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1143386256]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.22670749, 0.22670749, 0.22670746, 1)
+
+[node name="MainMenu" type="Control" parent="." unique_id=1531930179]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ExitButton" type="Button" parent="MainMenu" unique_id=900697872]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -8.0
+offset_bottom = 8.0
+grow_horizontal = 0
+text = "Exit"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu" unique_id=1093875593]
+custom_minimum_size = Vector2(260, 330)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = -29.5
+offset_right = 22.0
+offset_bottom = 29.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 100
+
+[node name="Logo" type="Label" parent="MainMenu/VBoxContainer" unique_id=782704173]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Tetris"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/VBoxContainer" unique_id=1414281026]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="EndlessButton" type="Button" parent="MainMenu/VBoxContainer/VBoxContainer" unique_id=1033754214]
+custom_minimum_size = Vector2(260, 50)
+layout_mode = 2
+text = "Endless"
+
+[node name="ChallengesButton" type="Button" parent="MainMenu/VBoxContainer/VBoxContainer" unique_id=1868728144]
+custom_minimum_size = Vector2(260, 50)
+layout_mode = 2
+text = "Challenges"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/VBoxContainer/VBoxContainer" unique_id=620657482]
+layout_mode = 2
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="SkinsButton" type="Button" parent="MainMenu/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=2044069372]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+text = "Skins"
+
+[node name="SettingsButton" type="Button" parent="MainMenu/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1728541946]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+text = "Sets"
+
+[node name="ChallengesPanel" type="Control" parent="." unique_id=2047545505]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BackButton" type="Button" parent="ChallengesPanel" unique_id=357733219]
+custom_minimum_size = Vector2(80, 36)
+layout_mode = 1
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Back"
+
+[node name="ChallengeGrid" type="GridContainer" parent="ChallengesPanel" unique_id=796688192]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+
+[node name="SkinsPanel" type="Control" parent="." unique_id=1518106496]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BackButton" type="Button" parent="SkinsPanel" unique_id=1841233999]
+custom_minimum_size = Vector2(80, 36)
+layout_mode = 1
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Back"
+
+[node name="SettingsPanel" type="Control" parent="." unique_id=1232168567]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BackButton" type="Button" parent="SettingsPanel" unique_id=17678057]
+custom_minimum_size = Vector2(80, 36)
+layout_mode = 1
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Back"
+
+[node name="GameView" type="Control" parent="." unique_id=1273563301]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BackButton" type="Button" parent="GameView" unique_id=548327617]
+custom_minimum_size = Vector2(80, 36)
+layout_mode = 1
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Back"
