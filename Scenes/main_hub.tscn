@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://ccrrvv5fn6vgn" path="res://Scenes/health_hud.tscn" id="2_dsbee"]
 [ext_resource type="Texture2D" uid="uid://dccbka7it1r54" path="res://Assets/Tilemap_Temporary.png" id="2_qv37j"]
 [ext_resource type="PackedScene" uid="uid://ckt7cjod55hpw" path="res://Scenes/timer_hud.tscn" id="3_gicec"]
-[ext_resource type="PackedScene" path="res://Scenes/death_screen.tscn" id="4_y7xdp"]
+[ext_resource type="PackedScene" uid="uid://ddmhn1s1rsub5" path="res://Scenes/death_screen.tscn" id="4_y7xdp"]
 [ext_resource type="PackedScene" uid="uid://dm0205wsl851x" path="res://Scenes/terminal.tscn" id="7_q31lu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r8vha"]

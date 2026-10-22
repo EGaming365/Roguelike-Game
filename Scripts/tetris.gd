@@ -28,6 +28,9 @@ const KICKS: Array = [0, -1, 1, -2, 2]
 @export var base_fall_interval: float = 0.8
 @export var level_speedup: float = 0.07
 @export var min_fall_interval: float = 0.05
+@export var soft_drop_interval: float = 0.04
+@export var soft_drop_score: int = 1
+@export var max_frame_delta: float = 0.05
 @export var lock_delay: float = 0.5
 @export var lock_reset_limit: int = 15
 @export var lines_per_level: int = 10
@@ -35,9 +38,10 @@ const KICKS: Array = [0, -1, 1, -2, 2]
 @export var left_actions: Array[StringName] = [&"ui_left", &"move_left"]
 @export var right_actions: Array[StringName] = [&"ui_right", &"move_right"]
 @export var rotate_actions: Array[StringName] = [&"ui_up", &"move_up"]
-@export var hard_drop_actions: Array[StringName] = [&"ui_down", &"move_down"]
+@export var hard_drop_actions: Array[StringName] = [&"space"]
 @export var restart_actions: Array[StringName] = [&"ui_accept", &"select"]
 @export var back_actions: Array[StringName] = [&"ui_cancel"]
+@export var fast_actions: Array[StringName] = [&"ui_down", &"move_down"]
 @export var pause_key: Key = KEY_P
 @export var rotate_ccw_key: Key = KEY_Z
 @export var font_scale: float = 0.7
@@ -64,6 +68,7 @@ const KICKS: Array = [0, -1, 1, -2, 2]
 @onready var exit_button: BaseButton = find_child("ExitButton", true, false) as BaseButton
 @onready var challenges_panel: Control = find_child("ChallengesPanel", true, false) as Control
 @onready var challenge_grid: Container = find_child("ChallengeGrid", true, false) as Container
+@onready var rotation_button: BaseButton = find_child("Rotation", true, false) as BaseButton
 @onready var skins_panel: Control = find_child("SkinsPanel", true, false) as Control
 @onready var settings_panel: Control = find_child("SettingsPanel", true, false) as Control
 @onready var game_view: Control = find_child("GameView", true, false) as Control
@@ -321,6 +326,13 @@ func _matches(event: InputEvent, actions: Array[StringName], allow_echo: bool = 
 	return false
 
 
+func _fast_held() -> bool:
+	for action in fast_actions:
+		if InputMap.has_action(action) and Input.is_action_pressed(action):
+			return true
+	return false
+
+
 func _process(delta: float) -> void:
 	if page != Page.GAME or not is_visible_in_tree():
 		return
@@ -329,12 +341,18 @@ func _process(delta: float) -> void:
 	if state != State.PLAYING:
 		return
 	var interval := maxf(min_fall_interval, base_fall_interval - (level - 1) * level_speedup)
-	gravity_timer += delta
+	var soft_dropping := _fast_held()
+	if soft_dropping:
+		interval = minf(interval, soft_drop_interval)
+		gravity_timer = minf(gravity_timer, interval)
+	gravity_timer += minf(delta, max_frame_delta)
 	while gravity_timer >= interval:
 		gravity_timer -= interval
 		if _try_move(Vector2i(0, 1)):
 			lock_resets = 0
 			lock_timer = 0.0
+			if soft_dropping:
+				score += soft_drop_score
 		else:
 			gravity_timer = 0.0
 			break
