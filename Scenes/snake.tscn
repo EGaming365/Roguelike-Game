@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bs6x0gyyqynhh"]
+
+[ext_resource type="Script" uid="uid://b17p28q7yp8nw" path="res://Scripts/snake.gd" id="1_16tbv"]
+
+[node name="Snake" type="Control" unique_id=1462650537]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_16tbv")

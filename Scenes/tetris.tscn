@@ -129,7 +129,37 @@ theme_override_constants/v_separation = 10
 [node name="Rotation" type="Button" parent="ChallengesPanel/ChallengeGrid" unique_id=375845906]
 custom_minimum_size = Vector2(80, 36)
 layout_mode = 2
-text = "Rotation"
+text = "No Rotation"
+
+[node name="Speed" type="Button" parent="ChallengesPanel/ChallengeGrid" unique_id=1937341615]
+custom_minimum_size = Vector2(80, 36)
+layout_mode = 2
+text = "Extreme Speed"
+
+[node name="Invisible" type="Button" parent="ChallengesPanel/ChallengeGrid" unique_id=511997644]
+custom_minimum_size = Vector2(80, 36)
+layout_mode = 2
+text = "Invisible"
+
+[node name="Garbage" type="Button" parent="ChallengesPanel/ChallengeGrid" unique_id=2090400153]
+custom_minimum_size = Vector2(80, 36)
+layout_mode = 2
+text = "Rising Garbage"
+
+[node name="Blind" type="Button" parent="ChallengesPanel/ChallengeGrid" unique_id=191626592]
+custom_minimum_size = Vector2(80, 36)
+layout_mode = 2
+text = "Blind"
+
+[node name="Reversed" type="Button" parent="ChallengesPanel/ChallengeGrid" unique_id=1488369681]
+custom_minimum_size = Vector2(80, 36)
+layout_mode = 2
+text = "Reversed"
+
+[node name="Timer" type="Button" parent="ChallengesPanel/ChallengeGrid" unique_id=279262471]
+custom_minimum_size = Vector2(80, 36)
+layout_mode = 2
+text = "Time Pressure"
 
 [node name="SkinsPanel" type="Control" parent="." unique_id=1518106496]
 anchors_preset = 0

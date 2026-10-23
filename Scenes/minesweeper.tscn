@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://ceaye3ly4qcll"]
+
+[ext_resource type="Script" uid="uid://js070kuuqtcn" path="res://Scripts/minesweeper.gd" id="1_22q3e"]
+
+[node name="Minesweeper" type="Control" unique_id=740895919]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_22q3e")

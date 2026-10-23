@@ -5,6 +5,9 @@
 [ext_resource type="Script" uid="uid://fkr342soo583" path="res://Scripts/app_icon.gd" id="3_3qcu8"]
 [ext_resource type="PackedScene" uid="uid://45tp7elriere" path="res://Scenes/blank_app.tscn" id="4_3qcu8"]
 [ext_resource type="PackedScene" uid="uid://g22rl1sd2ci0" path="res://Scenes/tetris.tscn" id="4_bkiny"]
+[ext_resource type="PackedScene" uid="uid://ceaye3ly4qcll" path="res://Scenes/minesweeper.tscn" id="5_o0u7k"]
+[ext_resource type="PackedScene" uid="uid://bs6x0gyyqynhh" path="res://Scenes/snake.tscn" id="6_8r2u6"]
+[ext_resource type="PackedScene" uid="uid://3hdu11d2048t" path="res://Scenes/2048.tscn" id="7_fv8ln"]
 
 [node name="App_Screen" type="CanvasLayer" unique_id=994309285]
 layer = 10
@@ -78,8 +81,8 @@ icon_alignment = 1
 vertical_icon_alignment = 0
 expand_icon = true
 script = ExtResource("3_3qcu8")
-app_title = "Mine Sweeper"
-app_scene = ExtResource("4_3qcu8")
+app_title = "Minesweeper"
+app_scene = ExtResource("5_o0u7k")
 
 [node name="Button3" type="Button" parent="Panel/Margin/Layout/MarginContainer/Grid" unique_id=588965407]
 custom_minimum_size = Vector2(170, 170)
@@ -89,7 +92,8 @@ icon_alignment = 1
 vertical_icon_alignment = 0
 expand_icon = true
 script = ExtResource("3_3qcu8")
-app_scene = ExtResource("4_3qcu8")
+app_title = "Snake"
+app_scene = ExtResource("6_8r2u6")
 
 [node name="Button4" type="Button" parent="Panel/Margin/Layout/MarginContainer/Grid" unique_id=1000549016]
 custom_minimum_size = Vector2(170, 170)
@@ -99,7 +103,8 @@ icon_alignment = 1
 vertical_icon_alignment = 0
 expand_icon = true
 script = ExtResource("3_3qcu8")
-app_scene = ExtResource("4_3qcu8")
+app_title = "2048"
+app_scene = ExtResource("7_fv8ln")
 
 [node name="Button5" type="Button" parent="Panel/Margin/Layout/MarginContainer/Grid" unique_id=444125937]
 custom_minimum_size = Vector2(170, 170)

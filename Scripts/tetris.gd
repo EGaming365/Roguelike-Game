@@ -5,6 +5,7 @@ signal challenge_selected(index: int)
 
 enum Page { MENU, CHALLENGES, SKINS, SETTINGS, GAME }
 enum State { PLAYING, PAUSED, OVER }
+enum Challenge { NONE, NO_ROTATION, EXTREME_SPEED, INVISIBLE, RISING_GARBAGE, BLIND, REVERSED, TIME_PRESSURE }
 
 const SHAPES: Array = [
 	[Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1)],
@@ -17,6 +18,21 @@ const SHAPES: Array = [
 ]
 const SIZES: Array = [4, 2, 3, 3, 3, 3, 3]
 const KICKS: Array = [0, -1, 1, -2, 2]
+const GARBAGE_TYPE: int = 7
+const CHALLENGE_BUTTONS: Dictionary = {
+	"rotation": Challenge.NO_ROTATION,
+	"norotation": Challenge.NO_ROTATION,
+	"speed": Challenge.EXTREME_SPEED,
+	"extremespeed": Challenge.EXTREME_SPEED,
+	"invisible": Challenge.INVISIBLE,
+	"garbage": Challenge.RISING_GARBAGE,
+	"risinggarbage": Challenge.RISING_GARBAGE,
+	"blind": Challenge.BLIND,
+	"reversed": Challenge.REVERSED,
+	"reverse": Challenge.REVERSED,
+	"timer": Challenge.TIME_PRESSURE,
+	"timepressure": Challenge.TIME_PRESSURE,
+}
 
 @export var apply_layout: bool = true
 @export var challenge_columns: int = 5
@@ -46,6 +62,14 @@ const KICKS: Array = [0, -1, 1, -2, 2]
 @export var rotate_ccw_key: Key = KEY_Z
 @export var font_scale: float = 0.7
 @export var ghost_alpha: float = 0.25
+@export var extreme_fall_interval: float = 0.05
+@export var invisible_reveal_time: float = 0.35
+@export var garbage_interval: float = 8.0
+@export var piece_time_limit: float = 3.0
+@export var garbage_color: Color = Color(0.45, 0.45, 0.5)
+@export var challenge_label_color: Color = Color(1.0, 0.8, 0.3)
+@export var timer_good_color: Color = Color(0.3, 0.9, 0.35)
+@export var timer_bad_color: Color = Color(0.95, 0.3, 0.3)
 @export var board_color: Color = Color(0.08, 0.09, 0.12)
 @export var grid_color: Color = Color(1.0, 1.0, 1.0, 0.06)
 @export var text_color: Color = Color(0.85, 0.95, 0.85)
@@ -88,6 +112,10 @@ var lines: int = 0
 var level: int = 1
 var high_score: int = 0
 var state: State = State.OVER
+var challenge: Challenge = Challenge.NONE
+var reveal_timer: float = 0.0
+var garbage_timer: float = 0.0
+var piece_timer: float = 0.0
 
 
 func _ready() -> void:
@@ -125,7 +153,7 @@ func _ready() -> void:
 			if button == null:
 				continue
 			button.focus_mode = Control.FOCUS_NONE
-			button.pressed.connect(on_challenge_pressed.bind(index))
+			button.pressed.connect(on_challenge_pressed.bind(index, button.name))
 			index += 1
 
 	show_page(Page.MENU)
@@ -170,12 +198,39 @@ func show_page(target: Page) -> void:
 
 
 func on_endless_pressed() -> void:
+	challenge = Challenge.NONE
 	start_game()
 	show_page(Page.GAME)
 
 
-func on_challenge_pressed(index: int) -> void:
+func on_challenge_pressed(index: int, button_name: StringName) -> void:
 	challenge_selected.emit(index)
+	var key: String = String(button_name).to_lower().replace(" ", "").replace("_", "")
+	if not CHALLENGE_BUTTONS.has(key):
+		push_warning("No Tetris challenge matches the button name " + String(button_name))
+		return
+	challenge = CHALLENGE_BUTTONS[key]
+	start_game()
+	show_page(Page.GAME)
+
+
+static func challenge_title(value: int) -> String:
+	match value:
+		Challenge.NO_ROTATION:
+			return "No Rotation"
+		Challenge.EXTREME_SPEED:
+			return "Extreme Speed"
+		Challenge.INVISIBLE:
+			return "Invisible"
+		Challenge.RISING_GARBAGE:
+			return "Rising Garbage"
+		Challenge.BLIND:
+			return "Blind"
+		Challenge.REVERSED:
+			return "Reversed"
+		Challenge.TIME_PRESSURE:
+			return "Time Pressure"
+	return ""
 
 
 func on_exit_pressed() -> void:
@@ -188,6 +243,9 @@ func start_game() -> void:
 	lines = 0
 	level = 1
 	bag.clear()
+	reveal_timer = 0.0
+	garbage_timer = 0.0
+	piece_timer = 0.0
 	next_type = _pull()
 	state = State.PLAYING
 	_spawn()
@@ -225,6 +283,7 @@ func _spawn() -> void:
 	gravity_timer = 0.0
 	lock_timer = 0.0
 	lock_resets = 0
+	piece_timer = 0.0
 	if _collides(current_cells, current_pos):
 		_end_game()
 
@@ -259,7 +318,7 @@ func _on_moved() -> void:
 
 
 func _rotate(clockwise: bool) -> void:
-	if current_type == 1:
+	if current_type == 1 or challenge == Challenge.NO_ROTATION:
 		return
 	var n: int = SIZES[current_type]
 	var rotated: Array[Vector2i] = []
@@ -277,10 +336,28 @@ func _rotate(clockwise: bool) -> void:
 			return
 
 
-func _hard_drop() -> void:
+func _hard_drop(with_bonus: bool = true) -> void:
 	while _try_move(Vector2i(0, 1)):
-		score += 2
+		if with_bonus:
+			score += 2
 	_lock()
+
+
+func _add_garbage_row() -> void:
+	for x in columns:
+		if board[x] != -1:
+			_end_game()
+			return
+	for y in range(0, rows - 1):
+		for x in columns:
+			board[y * columns + x] = board[(y + 1) * columns + x]
+	var hole: int = randi() % columns
+	for x in columns:
+		board[(rows - 1) * columns + x] = -1 if x == hole else GARBAGE_TYPE
+	if _collides(current_cells, current_pos):
+		current_pos.y -= 1
+		if _collides(current_cells, current_pos):
+			_end_game()
 
 
 func _lock() -> void:
@@ -290,6 +367,7 @@ func _lock() -> void:
 			_end_game()
 			return
 		board[p.y * columns + p.x] = current_type
+	reveal_timer = invisible_reveal_time
 	var cleared := _clear_lines()
 	if cleared > 0:
 		score += score_table[mini(cleared, score_table.size() - 1)] * level
@@ -340,7 +418,23 @@ func _process(delta: float) -> void:
 		game_view.queue_redraw()
 	if state != State.PLAYING:
 		return
+	if reveal_timer > 0.0:
+		reveal_timer -= delta
+	if challenge == Challenge.TIME_PRESSURE:
+		piece_timer += delta
+		if piece_timer >= piece_time_limit:
+			_hard_drop(false)
+			return
+	if challenge == Challenge.RISING_GARBAGE:
+		garbage_timer += delta
+		if garbage_timer >= garbage_interval:
+			garbage_timer = 0.0
+			_add_garbage_row()
+			if state != State.PLAYING:
+				return
 	var interval := maxf(min_fall_interval, base_fall_interval - (level - 1) * level_speedup)
+	if challenge == Challenge.EXTREME_SPEED:
+		interval = extreme_fall_interval
 	var soft_dropping := _fast_held()
 	if soft_dropping:
 		interval = minf(interval, soft_drop_interval)
@@ -385,10 +479,15 @@ func _input(event: InputEvent) -> void:
 		return
 	if state != State.PLAYING:
 		return
-	if _matches(event, left_actions, true):
+	var move_left: Array[StringName] = left_actions
+	var move_right: Array[StringName] = right_actions
+	if challenge == Challenge.REVERSED:
+		move_left = right_actions
+		move_right = left_actions
+	if _matches(event, move_left, true):
 		if _try_move(Vector2i(-1, 0)):
 			_on_moved()
-	elif _matches(event, right_actions, true):
+	elif _matches(event, move_right, true):
 		if _try_move(Vector2i(1, 0)):
 			_on_moved()
 	elif _matches(event, rotate_actions):
@@ -406,6 +505,12 @@ func _cell_px() -> float:
 	if auto_fit:
 		return maxf(4.0, minf(game_view.size.y / (rows + 1.0), game_view.size.x / (columns + 7.5)))
 	return cell_size
+
+
+func _type_color(t: int) -> Color:
+	if t == GARBAGE_TYPE:
+		return garbage_color
+	return piece_colors[t]
 
 
 func draw_cell(pos: Vector2, cs: float, color: Color) -> void:
@@ -429,22 +534,25 @@ func draw_game() -> void:
 	for gy in range(1, rows):
 		game_view.draw_line(origin + Vector2(0.0, gy * cs), origin + Vector2(board_size.x, gy * cs), grid_color)
 
-	for by in rows:
-		for bx in columns:
-			var t: int = board[by * columns + bx]
-			if t != -1:
-				draw_cell(origin + Vector2(bx, by) * cs, cs, piece_colors[t])
+	var show_stack: bool = challenge != Challenge.INVISIBLE or reveal_timer > 0.0 or state == State.OVER
+	if show_stack:
+		for by in rows:
+			for bx in columns:
+				var t: int = board[by * columns + bx]
+				if t != -1:
+					draw_cell(origin + Vector2(bx, by) * cs, cs, _type_color(t))
 
 	if state != State.OVER:
-		var gp := current_pos
-		while not _collides(current_cells, gp + Vector2i(0, 1)):
-			gp.y += 1
-		var gc: Color = piece_colors[current_type]
-		gc.a = ghost_alpha
-		for c in current_cells:
-			var gpp := c + gp
-			if gpp.y >= 0:
-				draw_cell(origin + Vector2(gpp) * cs, cs, gc)
+		if challenge != Challenge.BLIND:
+			var gp := current_pos
+			while not _collides(current_cells, gp + Vector2i(0, 1)):
+				gp.y += 1
+			var gc: Color = piece_colors[current_type]
+			gc.a = ghost_alpha
+			for c in current_cells:
+				var gpp := c + gp
+				if gpp.y >= 0:
+					draw_cell(origin + Vector2(gpp) * cs, cs, gc)
 		for c in current_cells:
 			var cp := c + current_pos
 			if cp.y >= 0:
@@ -455,16 +563,19 @@ func draw_game() -> void:
 	game_view.draw_string(font, Vector2(px, ty), "NEXT", HORIZONTAL_ALIGNMENT_LEFT, -1, fs, text_color)
 	var box := Rect2(Vector2(px, ty + cs * 0.4), Vector2(cs * 5.0, cs * 3.5))
 	game_view.draw_rect(box, board_color)
-	var next_cells := _base_cells(next_type)
-	var min_c := Vector2i(99, 99)
-	var max_c := Vector2i(-99, -99)
-	for c in next_cells:
-		min_c = Vector2i(mini(min_c.x, c.x), mini(min_c.y, c.y))
-		max_c = Vector2i(maxi(max_c.x, c.x), maxi(max_c.y, c.y))
-	var shape_px := Vector2(max_c - min_c + Vector2i.ONE) * cs
-	var shape_origin := box.position + (box.size - shape_px) * 0.5
-	for c in next_cells:
-		draw_cell(shape_origin + Vector2(c - min_c) * cs, cs, piece_colors[next_type])
+	if challenge == Challenge.BLIND:
+		game_view.draw_string(font, box.position + Vector2(0.0, box.size.y * 0.5 + fs * 0.35), "?", HORIZONTAL_ALIGNMENT_CENTER, box.size.x, fs, text_color)
+	else:
+		var next_cells := _base_cells(next_type)
+		var min_c := Vector2i(99, 99)
+		var max_c := Vector2i(-99, -99)
+		for c in next_cells:
+			min_c = Vector2i(mini(min_c.x, c.x), mini(min_c.y, c.y))
+			max_c = Vector2i(maxi(max_c.x, c.x), maxi(max_c.y, c.y))
+		var shape_px := Vector2(max_c - min_c + Vector2i.ONE) * cs
+		var shape_origin := box.position + (box.size - shape_px) * 0.5
+		for c in next_cells:
+			draw_cell(shape_origin + Vector2(c - min_c) * cs, cs, piece_colors[next_type])
 
 	var sy := box.end.y + cs * 1.2
 	var step := cs * 1.7
@@ -473,6 +584,15 @@ func draw_game() -> void:
 	for i in labels.size():
 		game_view.draw_string(font, Vector2(px, sy + step * i), labels[i], HORIZONTAL_ALIGNMENT_LEFT, -1, fs, text_color.darkened(0.35))
 		game_view.draw_string(font, Vector2(px, sy + step * i + fs * 1.1), str(values[i]), HORIZONTAL_ALIGNMENT_LEFT, -1, fs, text_color)
+
+	if challenge != Challenge.NONE:
+		game_view.draw_string(font, Vector2(px, sy + step * labels.size()), challenge_title(challenge), HORIZONTAL_ALIGNMENT_LEFT, -1, fs, challenge_label_color)
+
+	if challenge == Challenge.TIME_PRESSURE and state == State.PLAYING:
+		var ratio: float = clampf(1.0 - piece_timer / piece_time_limit, 0.0, 1.0)
+		var bar_pos := origin + Vector2(0.0, board_size.y + cs * 0.15)
+		game_view.draw_rect(Rect2(bar_pos, Vector2(board_size.x, cs * 0.25)), board_color)
+		game_view.draw_rect(Rect2(bar_pos, Vector2(board_size.x * ratio, cs * 0.25)), timer_bad_color.lerp(timer_good_color, ratio))
 
 	if state != State.PLAYING:
 		game_view.draw_rect(Rect2(origin, board_size), Color(0.0, 0.0, 0.0, 0.6))
